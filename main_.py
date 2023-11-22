@@ -26,17 +26,23 @@ df_events.set_index('Date', inplace=True)
 events_list = pd.unique(df_events['Name'])
 # print(events_list)
 
+channels_dict = {}
+from grouping_widgets import App
+app = App(['___'] + list(events_list) + ['reserve'], channels_dict)
+app.mainloop()
+
+
 # TODO - как задавать это соответствие более просто??
-channels_dict = {
-    'LAN2':       {0: ' Ошибка LAN2',
-                   1: ' Активация LAN2'},
-    'SV-поток 2': {0: ' Ошибка SV-потока 2 (W2G_ORU2_01A1_AMU)',
-                   1: ' Прием SV-потока 2 (W2G_ORU2_01A1_AMU)'},
-    'SV-поток 3': {0: ' Ошибка SV-потока 3 (QCG_ORU3_01A1_AMU)',
-                   1: ' Прием SV-потока 3 (QCG_ORU3_01A1_AMU)'},
-    'SV-поток 4': {0: ' Ошибка SV-потока 4 (KQS_ORU4_01A1_AMU)',
-                   1: ' Прием SV-потока 4 (KQS_ORU4_01A1_AMU)'}
-}
+# channels_dict = {
+#     'LAN2':       {0: ' Ошибка LAN2',
+#                    1: ' Активация LAN2'},
+#     'SV-поток 2': {0: ' Ошибка SV-потока 2 (W2G_ORU2_01A1_AMU)',
+#                    1: ' Прием SV-потока 2 (W2G_ORU2_01A1_AMU)'},
+#     'SV-поток 3': {0: ' Ошибка SV-потока 3 (QCG_ORU3_01A1_AMU)',
+#                    1: ' Прием SV-потока 3 (QCG_ORU3_01A1_AMU)'},
+#     'SV-поток 4': {0: ' Ошибка SV-потока 4 (KQS_ORU4_01A1_AMU)',
+#                    1: ' Прием SV-потока 4 (KQS_ORU4_01A1_AMU)'}
+# }
 
 channels = channels_dict.keys()
 
