@@ -32,38 +32,50 @@ class ListFrame(tk.Frame):
 
     def insert_item(self, channel, value, value2):
         pair = f'{channel} ({value}%__%{value2})'
-
         self.list.insert(tk.END, pair)
+
+    def insert_reserve(self, reserve_name):
+        self.list.insert(tk.END, reserve_name)
 
 
 class App(tk.Tk):
     def __init__(self, events_list, channels_dict):
         super().__init__()
+        self.var = tk.StringVar()
+        self.txt = tk.Entry(self, textvariable=self.var)
+        self.var2 = tk.StringVar()
+        self.txt2 = tk.Entry(self, textvariable=self.var2)
+
         self.frame_a = ListFrame(self, events_list)
         self.frame_a2 = ListFrame(self, events_list)
         self.frame_b = ListFrame(self)
-        self.btn_right = tk.Button(self, text=">",
-                                   command=self.move)
-        self.btn_left = tk.Button(self, text="End",
-                                  command=self.exit)
+        self.btn_pair = tk.Button(self, text=">>",
+                                  command=self.move)
+        self.btn_add_reserve = tk.Button(self, text="res",
+                                  command=self.add_reserve)
 
-        self.var = tk.StringVar()
-        self.txt = tk.Entry(self, textvariable=self.var)
+        self.btn_end = tk.Button(self, text="End",
+                                 command=self.exit)
 
         self.txt.pack(side=tk.TOP)
+        self.txt2.pack(side=tk.TOP)
         self.frame_a.pack(side=tk.LEFT, padx=10, pady=10)
         self.frame_a2.pack(side=tk.LEFT, padx=10, pady=10, fill='y')
         self.frame_b.pack(side=tk.RIGHT, padx=10, pady=10, fill='y')
-        self.btn_right.pack(expand=True, ipadx=5)
-        self.btn_left.pack(expand=True, ipadx=5)
+        self.btn_pair.pack(expand=True, ipadx=5)
+        self.btn_add_reserve.pack(expand=True, ipadx=5)
+        self.btn_end.pack(expand=True, ipadx=5)
         self.channels_dict = channels_dict
 
     def move(self):
         value = self.frame_a.get_selection()
         value2 = self.frame_a2.get_selection()
-        if value and value2 and value != value2 and value != '___' and value2 != '___':
-            channel = self.var.get()
-            self.var.set(value)
+        channel = self.var.get()
+        if value and value2 and value != value2 \
+                and value != '___' and value2 != '___' \
+                and channel not in self.channels_dict.keys() \
+                and len(channel):
+            # self.var.set(value)
             self.frame_b.insert_item(channel, value, value2)
             self.frame_a.del_item(value)
             self.frame_a.del_item(value2)
@@ -71,6 +83,13 @@ class App(tk.Tk):
             self.frame_a2.del_item(value2)
             channel_dict = {0: value, 1: value2}
             self.channels_dict[channel] = channel_dict
+
+    def add_reserve(self):
+        reserve_name = self.var2.get()
+        if len(reserve_name):
+            self.frame_a.insert_reserve(reserve_name)
+            self.frame_a2.insert_reserve(reserve_name)
+
 
     def exit(self):
         self.quit()
