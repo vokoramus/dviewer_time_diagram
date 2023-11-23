@@ -32,7 +32,6 @@ app = App(['___'] + list(events_list) + ['reserve'], channels_dict)
 app.mainloop()
 
 
-# TODO - как задавать это соответствие более просто??
 # channels_dict = {
 #     'LAN2':       {0: ' Ошибка LAN2',
 #                    1: ' Активация LAN2'},
@@ -92,9 +91,9 @@ for date in df_events.index:
     value = events_dict[event]['val']
     cursor[channel] = value
     df_channels_diagram.loc[date] = cursor
-    print()
+    # print()
 
-print(df_channels_diagram)
+# print(df_channels_diagram)
 
 # plt.stem(df_channels_diagram[df_channels_diagram.columns[0]])
 plt.figure()
